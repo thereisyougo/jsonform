@@ -120,28 +120,6 @@ if (!Array.prototype.indexOf)
 	}
 	
 	/*
-	 * 验证方法，有待扩展
-	 */
-	function checkForm(func) {
-		var items = this.options.items,
-		returnValue = true;
-		for (var key in items) {
-			var item = items[key],
-			val;
-			if (item.vtype !== '#') {}
-			if (item.allowBlank == false) {
-				val = getItemValue(item.id);
-				if (($.type(val) === 'string' && val.trim() === '')
-					 ||
-					($.type(val) === 'array' && val.length === 0)) {
-					alert(item.id + " required!");
-					returnValue = false;
-				}
-			}
-		}
-		return returnValue;
-	}
-	/*
 	 * 提供表单数据验证
 	 * replace(/[^\x00-\xff]/g, 'aa')
 	 */
@@ -532,16 +510,6 @@ if (!Array.prototype.indexOf)
 			}
 		}, datatype);
 	}
-	
-	/**
-	 * 将请求返回的数据永久式以json格式时行解析
-	 */
-	function back(dataType) {
-		if (_datatypes.indexOf(dataType) > -1) {
-			$.jsonform.ajax.dataType = dataType;
-		}
-		return this;
-	}
 	/*
 	 * 为select加载选项
 	 * {
@@ -809,10 +777,7 @@ if (!Array.prototype.indexOf)
 	
 	$.extend($.jsonform, {
 		updator : _updator,
-		formatVarString : _formatVarString,
-		ajax : {
-			dataType : 'text'
-		}
+		formatVarString : _formatVarString
 	});
 	
 })(jQuery, window);
