@@ -191,8 +191,8 @@ if (!Array.prototype.indexOf)
 			return this;
 		}
 		var len = arguments.length,
-		args = [len - 1, eventName],
-		returnValue = undefined;
+			args = [len - 1, eventName],
+			returnValue = undefined;
 		if (this.method.toLowerCase() === 'post') {
 			args.push('doPost');
 		} else {
@@ -548,13 +548,9 @@ if (!Array.prototype.indexOf)
 	}
 	
 	function toArray(jobj) {
-		var array = [];
 		if (!jobj.hasOwnProperty('length'))
-			return array;
-		if (jobj.length !== 0)
-			for (var i = 0, len = jobj.length; i < len; ++i)
-				array.push(jobj.get(i));
-		return array;
+			return [ jobj ];
+		return Array.prototype.slice.call(jobj);
 	}
 	/**
 	 * copy from http://www.jquery4u.com
@@ -627,8 +623,9 @@ if (!Array.prototype.indexOf)
 					if ($.type(props.items) === 'array') {
 						for (var i = 0, len = props.items.length; i < len; ++i) {
 							var item = props.items[i],
-							target = $('#' + item.id);
-							dom = {}; type = undefined;
+								target = $('#' + item.id);
+							dom = {};
+							type = undefined;
 							// 记录元素的类型
 							if (target.length === 1) {
 								dom = target.get(0);
@@ -768,7 +765,13 @@ if (!Array.prototype.indexOf)
 						_initComponent.call(context, props);
 						return context;
 					};
-				})(props, self)
+				})(props, self),
+				destroy: (function(context) {
+					var items = context.options.items;
+					for (var item in items) {
+						delete item.dom;
+					}
+				})(self)
 			});
 			
 			return self;
