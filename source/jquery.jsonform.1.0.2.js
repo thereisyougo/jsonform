@@ -28,7 +28,7 @@ if (!Array.prototype.indexOf)
 /**
  * 该组件初始化需要置于$(function() {})或DOMContentLoaded事件及其类似事件下
  * 因为组件初始化阶段需要读取DOM元素
- * @version 1.0.1060
+ * @version 1.0.2003
  * @requires jQuery v1.4.3 or later
  */
 (function ($, window) {
@@ -83,7 +83,8 @@ if (!Array.prototype.indexOf)
 			return;
 		}
 		var items = this.options.items,
-			item;
+			item,
+			tmpVal;
 		for (var key in items) {
 			item = items[key];
 			try {
@@ -96,7 +97,12 @@ if (!Array.prototype.indexOf)
 				} else {
 					val = jsonObject[item.mapping];
 				}
-				setItemValue.call(this, item.id, val);
+				// 增加自定义赋值函数
+				if ($.type(item.renderer) === 'function') {
+					setItemValue.call(this, item.id, (tmpVal = item.renderer(val, jsonObject)) ? tmpVal : val);
+				} else {
+					setItemValue.call(this, item.id, val);
+				}				
 			} catch (e) {
 				continue;
 			}
