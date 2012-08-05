@@ -783,4 +783,5 @@ if (!Array.prototype.indexOf)
 		formatVarString : _formatVarString
 	});
 	
+	
 })(jQuery, window);
