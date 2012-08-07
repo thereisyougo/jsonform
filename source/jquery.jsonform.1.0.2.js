@@ -97,6 +97,8 @@ if (!Array.prototype.indexOf)
 				} else {
 					val = jsonObject[item.mapping];
 				}
+				if (val === undefined)
+					continue;
 				// 增加自定义赋值函数
 				if ($.type(item.renderer) === 'function') {
 					setItemValue.call(this, item.id, (tmpVal = item.renderer(val, jsonObject)) ? tmpVal : val);
