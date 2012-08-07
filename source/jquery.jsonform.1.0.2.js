@@ -1,4 +1,3 @@
-
 if (!String.prototype.contains)
 	$.extend(String.prototype, {
 		contains : function (str) {
@@ -559,7 +558,7 @@ if (!Array.prototype.indexOf)
 	 * @param {Object} 参数对象
 	 * @param {Function} 回调函数
 	 * @param {String} 回调函数中返回数据的
-	 *
+	 * @returns {Object} jQuery.Deferred对象
 	 */
 	function doPost(url, params, callback, datatype, context) {
 		return $.post(url, params, function (data, textStatus, jqXHR) {
@@ -567,6 +566,14 @@ if (!Array.prototype.indexOf)
 		}, datatype);
 	}
 	
+	/**
+	 * @description 调用jQuer中的get函数
+	 * @param {String} URL
+	 * @param {Object} 参数对象
+	 * @param {Function} 回调函数
+	 * @param {String} 回调函数中返回数据的
+	 * @returns {Object} jQuery.Deferred对象
+	 */
 	function doGet(url, params, callback, datatype, context) {
 		return $.get(url, params, function (data, textStatus, jqXHR) {
 			if ($.type(callback) === 'function') {
