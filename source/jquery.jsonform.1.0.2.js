@@ -28,7 +28,7 @@ if (!Array.prototype.indexOf)
 /**
  * 该组件初始化需要置于$(function() {})或DOMContentLoaded事件及其类似事件下
  * 因为组件初始化阶段需要读取DOM元素
- * @version 1.0.2003
+ * @version 1.0.2004
  * @requires jQuery v1.4.3 or later
  */
 (function ($, window) {
@@ -36,8 +36,8 @@ if (!Array.prototype.indexOf)
 	 * 返回数据类型定义，参看http://api.jquery.com/jQuery.ajax#dataType
 	 */
 	var _datatypes = ['json', 'text', 'xml', 'script', 'jsonp', 'html'];
-	/*
-	 * 扩展jQuery一个函数value
+	/**
+	 * @description 扩展jQuery一个函数value
 	 * @Return 多个元素将返回一个数组
 	 */
 	$.fn.extend({
@@ -61,8 +61,9 @@ if (!Array.prototype.indexOf)
 	
 	// --------------------- all function definition -----------------------
 	
-	/*
-	 * 重置表单
+	/**
+	 * @description 重置表单
+	 * @returns {Object} jQuery对象
 	 */
 	function reset() {
 		var items = this.options.items;
@@ -72,8 +73,10 @@ if (!Array.prototype.indexOf)
 		return this;
 	}
 	
-	/*
-	 * 使用json为表单赋值
+	/**
+	 * @description 使用json为表单赋值
+	 * @param {Object} 以mapping做为键的JSON对象
+	 * @returns {Object} jQuery
 	 */
 	function setFormItemValues(jsonObject) {
 		try {
@@ -112,9 +115,9 @@ if (!Array.prototype.indexOf)
 		return this;
 	}
 	
-	/*
-	 * 从表单中获取以json为格式的值
-	 * @Return Object
+	/**
+	 * @description 从表单中获取以json为格式的值
+	 * @returns {Object} 以mapping或datafield做为键的对象
 	 */
 	function getFormItemValues() {
 		var jsonObject = {},
@@ -131,9 +134,11 @@ if (!Array.prototype.indexOf)
 		return jsonObject;
 	}
 	
-	/*
-	 * 提供表单数据验证
+	/**
+	 * @description 提供表单数据验证
 	 * replace(/[^\x00-\xff]/g, 'aa')
+	 * @param {Object} success and fail function definiation
+	 * @param {Object} jQuery对象
 	 */
 	function validate(obj) {
 		this.valid = true;
@@ -198,7 +203,9 @@ if (!Array.prototype.indexOf)
 	}
 	
 	/**
-	 * 触发特定事件
+	 * @description 触发特定事件
+	 * @param {String} 自定义事件名称
+	 * @returns {Object} jQuery.Deferred对象
 	 */
 	function fire(eventName) {
 		var act = this.options.actions;
@@ -220,8 +227,12 @@ if (!Array.prototype.indexOf)
 		return !returnValue ? this : returnValue;
 	}
 	
-	/*
-	 * 提交表单数据
+	/**
+	 * @description 提交表单数据
+	 * @param {String} [optional] 数据请求地址
+	 * @param {Object} [optional] 参数对象
+	 * @param {Function} 回调处理函数
+	 * @returns {Object} jQuery.Deferred对象
 	 */
 	function submit(url, params, callback) {
 		var argsLen = arguments.length,
@@ -240,8 +251,12 @@ if (!Array.prototype.indexOf)
 		
 	}
 	
-	/*
-	 * 从远程载入数据
+	/**
+	 * @description 从远程载入数据
+	 * @param {String} [optional] 数据请求地址
+	 * @param {Object} [optional] 参数对象
+	 * @param {Function} 回调处理函数
+	 * @returns {Object} jQuery.Deferred对象
 	 */
 	function load() {
 		var args = [];
@@ -250,8 +265,9 @@ if (!Array.prototype.indexOf)
 		return refreshForm.apply(this, args);
 	}
 	
-	/*
-	 * 异步从远程载入json赋值表单
+	/**
+	 * @description 异步从远程载入json赋值表单
+	 * @returns {Object} jQuery.Deferred对象
 	 */
 	function refreshForm() {
 		var args = [];
@@ -268,8 +284,12 @@ if (!Array.prototype.indexOf)
 		return interactive.apply(this, args);
 	}
 	
-	/*
-	 * 数据提交前，整理提交数据及判断提交参数
+	/**
+	 * @description 数据提交前，整理提交数据及判断提交参数
+	 * @param {Number} 额外的参数长度
+	 * @param {String} 定义的事件名
+	 * @param {String} 函数名doGet, goPost
+	 * @returns {Object} jQuery.Deferred对象
 	 */
 	function interactive(argsLen, approach, method) {
 		var args = [],
@@ -355,8 +375,8 @@ if (!Array.prototype.indexOf)
 		return updator[method].call(updator, _localURL, toQueryString(_localParams), _localFunc, _localType, self);
 	}
 	
-	/*
-	 * 日志输出函数
+	/**
+	 * @description 日志输出函数
 	 * 内部使用
 	 */
 	function log(content) {
@@ -365,8 +385,9 @@ if (!Array.prototype.indexOf)
 		else
 			alert(content);
 	}
-	/*
-	 * 组织jsonform中元素的id: value，形成一具Object
+	/**
+	 * @description 组织jsonform中元素的id: value，形成一具Object
+	 * @returns {Object} 以ID为键组织为成的对象
 	 */
 	function serialize() {
 		var items = this.options.items,
@@ -376,9 +397,11 @@ if (!Array.prototype.indexOf)
 		return result;
 	}
 	
-	/*
-	 * 根据初始化ID获取表单中单个元素的值
+	/**
+	 * @description 根据初始化ID获取表单中单个元素的值
 	 * 内部使用
+	 * @param {String} 元素ID
+	 * @returns {String} 元素值或值数组
 	 */
 	function getItemValue(id) {
 		var item = this.options.items[id];
@@ -393,17 +416,20 @@ if (!Array.prototype.indexOf)
 		}
 	}
 	
-	/*
-	 * 返回id对应的DOM元素
+	/**
+	 * @description 返回id对应的DOM元素
+	 * @returns {Object} DOM
 	 */
 	function getFormItem(id) {
 		var item = this.options.items[id];
 		return item.dom;
 	}
 	
-	/*
-	 * 根据初始化ID重置清空表单中单个元素的值
+	/**
+	 * @description 根据初始化ID重置清空表单中单个元素的值
 	 * 内部使用
+	 * @param {String} DOM id atribute
+	 * @returns {Object} jQuery
 	 */
 	function clearItemValue(id) {
 		var item = this.options.items[id],
@@ -418,9 +444,11 @@ if (!Array.prototype.indexOf)
 		}
 	}
 	
-	/*
-	 * 根据初始化ID对表单中单个元素赋值
+	/**
+	 * @description 根据初始化ID对表单中单个元素赋值
 	 * 内部使用
+	 * @param {String} DOM id
+	 * @param {String} DOM value
 	 */
 	function setItemValue(id, val) {
 		var item = this.options.items[id];
@@ -441,12 +469,20 @@ if (!Array.prototype.indexOf)
 		}
 	}
 	
+	/**
+	 * @description 判断对象是否字段串且是以非符号打头的字符串
+	 * @param {String} 
+	 * @returns {Boolean}
+	 */
 	function isNotEmptyString(obj) {
 		return typeof obj === 'string' && /^\w/.test(obj);
 	}
 	
-	/*
-	 * 将参数对象与URI合并后返回
+	/**
+	 * @description 将参数对象与URI合并后返回
+	 * @param {String} URL地址
+	 * @param {Object} 参数对象
+	 * @returns {String} 与参数对象拼接后的URL
 	 */
 	function toWholeWord(url, params) {
 		var result = url;
@@ -455,8 +491,10 @@ if (!Array.prototype.indexOf)
 		return result;
 	}
 	
-	/*
-	 * 将实参转换为BOOLEAN值
+	/**
+	 * @description 将实参转换为BOOLEAN值
+	 * @param {Object} 任何值
+	 * @returns {Boolean}
 	 */
 	function toBoolean(obj) {
 		if ($.type(obj) === 'boolean') {
@@ -470,8 +508,10 @@ if (!Array.prototype.indexOf)
 		}
 	}
 	
-	/*
-	 * 将对象转换为键值对
+	/**
+	 * @description 将对象转换为键值对 key : val => { name : key, value: val }
+	 * @param {Object} JSON对象
+	 * @returns {Object} JSON对象
 	 */
 	function toQueryObjects(obj) {
 		var objects = [];
@@ -495,8 +535,10 @@ if (!Array.prototype.indexOf)
 		return objects;
 	}
 	
-	/*
-	 * 将对象拼为参数字串
+	/**
+	 * @description 将对象拼为参数字串
+	 * @param {Object} JSON对象
+	 * @returns {String} key0=val0&key1=val1&...
 	 */
 	function toQueryString(obj) {
 		var objects = toQueryObjects(obj),
@@ -511,6 +553,14 @@ if (!Array.prototype.indexOf)
 		return params.join('&');
 	}
 	
+	/**
+	 * @description 调用jQuery中的post函数
+	 * @param {String} URL
+	 * @param {Object} 参数对象
+	 * @param {Function} 回调函数
+	 * @param {String} 回调函数中返回数据的
+	 *
+	 */
 	function doPost(url, params, callback, datatype, context) {
 		return $.post(url, params, function (data, textStatus, jqXHR) {
 			callback.call(context, data, textStatus, jqXHR);
@@ -524,7 +574,8 @@ if (!Array.prototype.indexOf)
 			}
 		}, datatype);
 	}
-	/*
+	/**
+	 * @description
 	 * 为select加载选项
 	 * {
 	 * 	url:加载数据地址,返回数据必需是一个数组
@@ -532,6 +583,8 @@ if (!Array.prototype.indexOf)
 	 * 	key: option的value值
 	 * 	value: option的text值
 	 * }
+	 * @param {Object} 配置对象，参考@description
+	 * @param {Object} jQuery
 	 */
 	function loadOption(obj) {
 		$.getJSON(obj.url, function (data, textStatus, jqXHR) {
@@ -541,9 +594,9 @@ if (!Array.prototype.indexOf)
 	}
 	
 	/**
-	 * 解析选项
-	 * @param obj 额外属性
-	 * @param data 后端返回数据
+	 * @description 解析选项
+	 * @param {Object} 额外属性 { extra : { key0 : val0, key1 : val1, ...} }其中val0...需要与后端返回数据中的key对应
+	 * @param {Object} 后端返回数据 
 	 */
 	function parseOption(obj, data) {
 		var html = "<option value=''>--\u8bf7\u9009\u62e9--</option>",
@@ -561,6 +614,11 @@ if (!Array.prototype.indexOf)
 		$('#' + obj.id).html(html);
 	}
 	
+	/**
+	 * @description 对象转数组
+	 * @param {Object}
+	 * @returns {Array}
+	 */
 	function toArray(jobj) {
 		if (!jobj.hasOwnProperty('length'))
 			return [ jobj ];
