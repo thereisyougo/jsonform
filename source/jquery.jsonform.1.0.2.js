@@ -86,13 +86,14 @@ if (!Array.prototype.indexOf)
 		}
 		var items = this.options.items,
 			item,
-			tmpVal;
+			tmpVal,
+			val;
 		for (var key in items) {
 			item = items[key];
 			try {
 				if (item.mapping.indexOf('.') != -1) {
-					var propset = item.mapping.split('.'),
-						val = jsonObject;
+					var propset = item.mapping.split('.');
+					val = jsonObject;
 					for (var i = 0, len = propset.length; i < len; ++i) {
 						val = val[propset[i]];
 					}
@@ -213,7 +214,7 @@ if (!Array.prototype.indexOf)
 		}
 		var len = arguments.length,
 			args = [len - 1, eventName],
-			returnValue = undefined;
+			returnValue;
 		if (this.method.toLowerCase() === 'post') {
 			args.push('doPost');
 		} else {
@@ -235,7 +236,7 @@ if (!Array.prototype.indexOf)
 	 */
 	function submit(url, params, callback) {
 		var argsLen = arguments.length,
-		returnValue = undefined,
+		returnValue,
 		args = [argsLen, 'submit'];
 		for (var i = 0; i < argsLen; ++i) {
 			args.push(arguments[i]);
@@ -380,9 +381,9 @@ if (!Array.prototype.indexOf)
 	 */
 	function log(content) {
 		if (typeof console != 'undefined')
-			console.log(content);
+			window.console.log(content);
 		else
-			alert(content);
+			window.alert(content);
 	}
 	/**
 	 * @description 组织jsonform中元素的id: value，形成一具Object
@@ -485,7 +486,7 @@ if (!Array.prototype.indexOf)
 	 */
 	function toWholeWord(url, params) {
 		var result = url;
-		reuslt += url.contains('?') ? '&' : '?';
+		result += url.contains('?') ? '&' : '?';
 		result += toQueryString(params);
 		return result;
 	}
@@ -499,7 +500,7 @@ if (!Array.prototype.indexOf)
 		if ($.type(obj) === 'boolean') {
 			return obj;
 		} else if (!isNaN(obj)) {
-			return !!parseInt(obj);
+			return !!parseInt(obj, 10);
 		} else if ($.type(obj) === 'undefined' || $.type(obj) === 'null') {
 			return false;
 		} else {
@@ -697,7 +698,7 @@ if (!Array.prototype.indexOf)
 				try {
 					var self = this,
 						dom = {},
-						type = undefined,
+						type,
 						tag = '';
 					if ($.type(props.items) === 'array') {
 						for (var i = 0, len = props.items.length; i < len; ++i) {
@@ -785,11 +786,10 @@ if (!Array.prototype.indexOf)
 						self.options.actions['load'].callback = function (data) {
 							try {
 								if ($.type(data) === 'string') {
-									data = window.eval('(' + data + ')');
+									data = eval('(' + data + ')');
 								}
 							} catch (e) {
-								throw new Error('data is not an object');
-								return;
+								throw new Error('The data can not be resolved to an object');
 							}
 							self.setFormItemValues(data);
 						};
