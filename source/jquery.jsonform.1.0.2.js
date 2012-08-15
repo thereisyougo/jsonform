@@ -56,7 +56,7 @@ if (!Array.prototype.indexOf)
 	});
 	
 	var _func = {},
-	_updator = {};
+		_updator = {};
 	
 	// --------------------- all function definition -----------------------
 	
@@ -682,10 +682,10 @@ if (!Array.prototype.indexOf)
 				url : props['url'],
 				baseParams : props['baseParams']
 			});
-			this.options = $.extend({}, {
+			this.options = {
 					items : {},
 					actions : {}
-				});
+				};
 			var self = $.extend({}, this, _func),
 				_def = {
 					type : '#',
@@ -840,7 +840,6 @@ if (!Array.prototype.indexOf)
 			$.extend(self, {
 				init : (function (props, context) {
 					return function () {
-						//console.log(this);
 						_initComponent.call(context, props);
 						return context;
 					};
