@@ -1,8 +1,18 @@
 $.fn.extend({
-	deserialize: function(object) {
+	deserialize: function(object, config) {
+		var cfg = config || {};
 		for (var itemName in object) {
 			var ele = $.makeArray(this.get(0).elements[itemName]);
 			var v = $.makeArray(object[itemName]);
+			// 查看配置
+			var fieldConfig = cfg[itemName];
+			if (typeof fieldConfig === 'function') {
+				fieldConfig.call(null, v, ele);
+			}
+			else if (fieldConfig && fieldConfig.constructor === Object && typeof fieldConfig.callback === 'function') {
+				fieldConfig.callback.call(null, v, ele);
+			}
+			// 赋值
 			$(ele).each(function(index, item) {
 				if (!item) return;
 				switch (item.type || item.tagName.toLowerCase()) {
